@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Suối Mây Eco Resort – Khu nghỉ dưỡng sinh thái tại Bảo Lộc, Lâm Đồng</title>
+  <meta name="description" content="Suối Mây Eco Resort: khu nghỉ dưỡng sinh thái 120 ha giữa rừng thông và đồi chè Bảo Lộc. Biệt thự, bungalow, căn hộ khách sạn sở hữu lâu dài, cam kết khai thác cho thuê.">
+  <link rel="stylesheet" href="../assets/css/du-an-suoi-may-eco-resort.css">
+  <script src="../assets/js/du-an-suoi-may-eco-resort.js" defer></script>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="site-header" id="siteHeader">
+  <div class="container header-inner">
+    <a href="#gioi-thieu" class="logo" aria-label="Suối Mây Eco Resort">
+      <span class="logo-mark" aria-hidden="true">🌿</span>
+      <span>Suối Mây <small>Eco Resort</small></span>
+    </a>
+
+    <nav class="main-nav" id="mainNav" aria-label="Menu chính">
+      <a href="../index.html" class="nav-home" title="Về trang chủ GATA"><span aria-hidden="true">🏠</span> Trang chủ</a>
+      <a href="#gioi-thieu" class="nav-link">Giới thiệu</a>
+      <a href="#noi-bat" class="nav-link">Nổi bật</a>
+      <a href="#tien-ich" class="nav-link">Tiện ích</a>
+      <a href="#san-pham" class="nav-link">Sản phẩm</a>
+      <a href="#thu-vien" class="nav-link">Thư viện</a>
+      <a href="#lien-he" class="nav-link">Liên hệ</a>
+    </nav>
+
+    <div class="header-actions">
+      <a href="#lien-he" class="btn btn-accent btn-sm">Nhận báo giá</a>
+      <button class="burger" id="burger" aria-label="Mở menu" aria-expanded="false" aria-controls="mainNav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- ================= BANNER ================= -->
+  <section class="hero" id="gioi-thieu">
+    <div class="hero-bg thumb">
+      <img class="ph" src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1800&q=70&auto=format&fit=crop" alt="Hồ bơi và bungalow giữa rừng cây xanh tại khu nghỉ dưỡng" loading="lazy" onerror="this.remove()">
+    </div>
+    <div class="container hero-content">
+      <span class="hero-badge">🌱 Đang mở bán giai đoạn 1 · Bảo Lộc, Lâm Đồng</span>
+      <h1 class="hero-title">Sống chậm giữa rừng thông,<br>đầu tư bền vững cùng thiên nhiên</h1>
+      <p class="hero-desc">Suối Mây Eco Resort là khu nghỉ dưỡng sinh thái 120 ha bên dòng suối Đam B'ri, bao quanh bởi đồi chè và rừng thông nguyên sinh. 186 biệt thự, bungalow và căn hộ khách sạn, sở hữu lâu dài, có đơn vị quốc tế vận hành.</p>
+      <div class="hero-actions">
+        <a href="#san-pham" class="btn btn-accent">Xem sản phẩm & giá</a>
+        <a href="#lien-he" class="btn btn-ghost">Đặt lịch tham quan</a>
+      </div>
+      <ul class="hero-facts">
+        <li><strong>Từ 2,9 tỷ</strong><span>Giá bán khởi điểm</span></li>
+        <li><strong>8%/năm</strong><span>Cam kết lợi nhuận 5 năm</span></li>
+        <li><strong>Quý IV/2027</strong><span>Dự kiến bàn giao</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= THÔNG TIN NỔI BẬT ================= -->
+  <section class="section" id="noi-bat">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Thông tin nổi bật</span>
+        <h2>Một dự án nghỉ dưỡng hiếm có giữa cao nguyên</h2>
+        <p>Khí hậu mát mẻ quanh năm (18–25°C), cách TP. Hồ Chí Minh khoảng 2 giờ 30 phút qua cao tốc Dầu Giây – Liên Khương.</p>
+      </div>
+      <div class="stats" id="statList"></div>
+      <div class="highlights" id="highlightList"></div>
+    </div>
+  </section>
+
+  <!-- ================= TIỆN ÍCH ================= -->
+  <section class="section section-soft" id="tien-ich">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Tiện ích & giá trị</span>
+        <h2>Trải nghiệm xanh trong từng khoảnh khắc</h2>
+        <p>Hơn 30 tiện ích nội khu được thiết kế hài hoà với địa hình tự nhiên, giữ lại tối đa cây rừng và mặt nước.</p>
+      </div>
+      <div class="feature-grid" id="featureList"></div>
+    </div>
+  </section>
+
+  <!-- ================= SẢN PHẨM & BẢNG GIÁ ================= -->
+  <section class="section" id="san-pham">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Sản phẩm & bảng giá</span>
+        <h2>Chọn không gian nghỉ dưỡng phù hợp với bạn</h2>
+        <p>Giá đã gồm VAT, chưa gồm phí bảo trì 2%. Thanh toán giãn 24 tháng, ngân hàng hỗ trợ vay đến 70%.</p>
+      </div>
+      <div class="tabs" id="productTabs" role="tablist" aria-label="Lọc loại sản phẩm"></div>
+      <div class="product-grid" id="productList"></div>
+    </div>
+  </section>
+
+  <!-- ================= THƯ VIỆN ẢNH ================= -->
+  <section class="section section-soft" id="thu-vien">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Thư viện ảnh</span>
+        <h2>Khám phá Suối Mây qua từng khung hình</h2>
+        <p>Bấm vào ảnh để xem lớn. Ảnh mang tính minh hoạ.</p>
+      </div>
+      <div class="gallery" id="galleryList"></div>
+    </div>
+  </section>
+
+  <!-- ================= KÊU GỌI HÀNH ĐỘNG / LIÊN HỆ ================= -->
+  <section class="section" id="lien-he">
+    <div class="container">
+      <div class="cta-banner reveal">
+        <div>
+          <h2>Chỉ còn 24 căn giai đoạn 1 với chiết khấu 12%</h2>
+          <p>Đăng ký trước 31/12 để nhận ưu đãi và một kỳ nghỉ 2 ngày 1 đêm miễn phí tại khu nghỉ dưỡng mẫu.</p>
+        </div>
+        <a href="tel:19006868" class="btn btn-accent">📞 Gọi 1900 6868</a>
+      </div>
+
+      <div class="contact-wrap">
+        <div class="contact-info reveal">
+          <h2>Liên hệ tư vấn & tham quan dự án</h2>
+          <p>Chuyên viên sẽ gọi lại cho bạn trong vòng 30 phút (8:00 – 21:00 hằng ngày).</p>
+          <ul class="info-list">
+            <li><span aria-hidden="true">📍</span><div><strong>Nhà mẫu</strong>Km 12, Quốc lộ 20, xã Lộc Châu, TP. Bảo Lộc, Lâm Đồng</div></li>
+            <li><span aria-hidden="true">🏢</span><div><strong>Văn phòng bán hàng</strong>Tầng 8, 123 Nguyễn Văn Linh, Quận 7, TP. Hồ Chí Minh</div></li>
+            <li><span aria-hidden="true">📞</span><div><strong>Hotline</strong><a href="tel:19006868">1900 6868</a></div></li>
+            <li><span aria-hidden="true">✉️</span><div><strong>Email</strong><a href="mailto:suoimay@gata.vn">suoimay@gata.vn</a></div></li>
+          </ul>
+        </div>
+
+        <form class="contact-form reveal" id="contactForm" novalidate>
+          <div class="form-row">
+            <div class="field">
+              <label for="fName">Họ và tên <span class="req">*</span></label>
+              <input id="fName" name="name" type="text" placeholder="Nguyễn Văn A" autocomplete="name">
+              <small class="error-msg"></small>
+            </div>
+            <div class="field">
+              <label for="fPhone">Số điện thoại <span class="req">*</span></label>
+              <input id="fPhone" name="phone" type="tel" placeholder="0912 345 678" autocomplete="tel">
+              <small class="error-msg"></small>
+            </div>
+          </div>
+          <div class="field">
+            <label for="fEmail">Email</label>
+            <input id="fEmail" name="email" type="email" placeholder="email@vidu.com" autocomplete="email">
+            <small class="error-msg"></small>
+          </div>
+          <div class="field">
+            <label for="fProduct">Sản phẩm quan tâm</label>
+            <select id="fProduct" name="product"></select>
+          </div>
+          <div class="field">
+            <label for="fNote">Nội dung / nhu cầu</label>
+            <textarea id="fNote" name="note" rows="4" placeholder="Ví dụ: Tôi muốn tham quan nhà mẫu vào cuối tuần…"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Gửi yêu cầu tư vấn</button>
+          <p class="form-note">Thông tin của bạn được bảo mật và chỉ dùng để tư vấn dự án.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <a href="#gioi-thieu" class="logo logo-light"><span class="logo-mark" aria-hidden="true">🌿</span><span>Suối Mây <small>Eco Resort</small></span></a>
+      <p>Dự án do GATA phân phối độc quyền. Thông tin, hình ảnh trên trang mang tính tham khảo và có thể thay đổi theo hồ sơ pháp lý chính thức.</p>
+    </div>
+    <div>
+      <h3>Liên kết nhanh</h3>
+      <ul>
+        <li><a href="../index.html">Trang chủ GATA</a></li>
+        <li><a href="#noi-bat">Thông tin nổi bật</a></li>
+        <li><a href="#tien-ich">Tiện ích</a></li>
+        <li><a href="#san-pham">Sản phẩm & bảng giá</a></li>
+        <li><a href="../index.html#projects">Dự án khác trên GATA</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Liên hệ</h3>
+      <ul>
+        <li>Hotline: <a href="tel:19006868">1900 6868</a></li>
+        <li>Email: <a href="mailto:suoimay@gata.vn">suoimay@gata.vn</a></li>
+        <li>Mở cửa: 8:00 – 21:00 hằng ngày</li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">© <span id="year"></span> Suối Mây Eco Resort · GATA. Bảo lưu mọi quyền.</div>
+</footer>
+
+<!-- Lightbox xem ảnh lớn -->
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Xem ảnh">
+  <button class="lb-btn lb-close" id="lbClose" aria-label="Đóng">✕</button>
+  <button class="lb-btn lb-prev" id="lbPrev" aria-label="Ảnh trước">‹</button>
+  <figure>
+    <img id="lbImg" src="" alt="">
+    <figcaption id="lbCaption"></figcaption>
+  </figure>
+  <button class="lb-btn lb-next" id="lbNext" aria-label="Ảnh sau">›</button>
+</div>
+
+<button class="back-top" id="backTop" aria-label="Lên đầu trang">↑</button>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+</body>
+</html>

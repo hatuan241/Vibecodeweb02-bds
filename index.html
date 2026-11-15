@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GATA – Kênh thông tin mua bán, cho thuê nhà đất</title>
+<meta name="description" content="Trang mẫu tham khảo: tìm kiếm, mua bán, cho thuê bất động sản.">
+<style>
+  :root{
+    --primary:#0f766e;      /* xanh ngọc đậm */
+    --primary-dark:#0b5a54;
+    --primary-light:#e6f4f2;
+    --accent:#f59e0b;       /* vàng hổ phách */
+    --text:#1f2937;
+    --muted:#6b7280;
+    --line:#e5e7eb;
+    --bg:#f6f7f8;
+    --white:#fff;
+    --radius:10px;
+    --shadow:0 4px 18px rgba(0,0,0,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color:var(--text);background:var(--bg);line-height:1.5;font-size:15px}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer}
+  img,svg{display:block}
+  .container{max-width:1200px;margin:0 auto;padding:0 16px}
+
+  /* ===== HEADER ===== */
+  header{background:var(--white);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+  .nav{display:flex;align-items:center;height:68px;gap:28px}
+  .logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:22px;color:var(--primary);flex-shrink:0}
+  .logo-mark{width:36px;height:36px;border-radius:9px;background:var(--primary);display:grid;place-items:center}
+  .logo small{display:block;font-size:10px;font-weight:600;color:var(--muted);letter-spacing:.5px;margin-top:-4px}
+  .menu{display:flex;gap:4px;flex:1}
+  .menu > li{list-style:none;position:relative}
+  .menu > li > a{display:block;padding:22px 12px;font-weight:600;font-size:14.5px}
+  .menu > li > a:hover{color:var(--primary)}
+  .dropdown{position:absolute;top:100%;left:0;background:var(--white);min-width:230px;box-shadow:var(--shadow);border-radius:0 0 var(--radius) var(--radius);padding:8px 0;display:none}
+  .menu > li:hover .dropdown{display:block}
+  .dropdown a{display:block;padding:8px 18px;font-size:14px}
+  .dropdown a:hover{background:var(--primary-light);color:var(--primary)}
+  .nav-actions{display:flex;align-items:center;gap:10px}
+  .icon-btn{width:40px;height:40px;border-radius:50%;border:none;background:transparent;display:grid;place-items:center;position:relative}
+  .icon-btn:hover{background:var(--bg)}
+  .badge{position:absolute;top:4px;right:4px;background:var(--accent);color:#fff;font-size:10px;font-weight:700;min-width:16px;height:16px;border-radius:8px;display:grid;place-items:center;padding:0 4px}
+  .btn{border:1px solid var(--line);background:var(--white);padding:9px 16px;border-radius:8px;font-weight:600;font-size:14px}
+  .btn:hover{border-color:var(--primary);color:var(--primary)}
+  .btn-primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+  .btn-primary:hover{background:var(--primary-dark);color:#fff}
+  .btn-text{border:none;background:none;font-weight:600;font-size:14px;padding:9px 6px}
+  .btn-text:hover{color:var(--primary)}
+  .burger{display:none}
+
+  /* ===== HERO + SEARCH ===== */
+  .hero{position:relative;min-height:400px;display:flex;align-items:center;
+    background:
+      linear-gradient(120deg,rgba(11,90,84,.92) 0%,rgba(15,118,110,.75) 45%,rgba(15,118,110,.35) 100%),
+      radial-gradient(circle at 80% 30%,#5eead4 0,transparent 40%),
+      linear-gradient(180deg,#134e4a,#0f766e);
+    overflow:hidden}
+  .hero-skyline{position:absolute;bottom:0;left:0;right:0;height:180px;opacity:.18}
+  .hero-inner{position:relative;width:100%;padding:48px 16px}
+  .hero h1{color:#fff;font-size:34px;line-height:1.25;max-width:620px;margin-bottom:8px}
+  .hero p{color:#ccfbf1;margin-bottom:26px;font-size:16px}
+  .search-box{max-width:860px}
+  .search-tabs{display:flex;gap:4px}
+  .search-tabs button{border:none;background:rgba(0,0,0,.35);color:#fff;padding:10px 22px;border-radius:8px 8px 0 0;font-weight:600;font-size:14.5px}
+  .search-tabs button.active{background:var(--white);color:var(--primary)}
+  .search-panel{background:var(--white);border-radius:0 var(--radius) var(--radius) var(--radius);padding:16px;box-shadow:var(--shadow)}
+  .search-row{display:flex;gap:8px}
+  .search-input{flex:1;display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:8px;padding:0 12px}
+  .search-input input{border:none;outline:none;flex:1;height:44px;font-size:15px;font-family:inherit}
+  .search-row .btn-primary{padding:0 28px;height:46px;font-size:15px}
+  .filters{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+  .filters select{height:40px;border:1px solid var(--line);border-radius:8px;padding:0 10px;font-family:inherit;font-size:14px;color:var(--text);background:var(--white)}
+  .filters select:focus,.search-input:focus-within{outline:2px solid var(--primary-light);border-color:var(--primary)}
+
+  /* ===== SECTIONS ===== */
+  section{padding:40px 0}
+  .section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px;gap:16px}
+  .section-head h2{font-size:23px}
+  .section-head p{color:var(--muted);font-size:14px}
+  .link-more{color:var(--primary);font-weight:600;font-size:14px;white-space:nowrap}
+  .link-more:hover{text-decoration:underline}
+
+  /* listing cards */
+  .result-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;color:var(--muted);font-size:14px;gap:10px;flex-wrap:wrap}
+  .result-bar select{height:36px;border:1px solid var(--line);border-radius:8px;padding:0 8px;font-family:inherit}
+  .grid-listings{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .card{background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06);transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+  .card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+  .thumb{position:relative;aspect-ratio:4/3;display:grid;place-items:center}
+  .thumb{overflow:hidden}
+  .thumb svg{width:56px;height:56px;opacity:.55}
+  .ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .4s}
+  .card:hover .ph,.project:hover .ph{transform:scale(1.05)}
+  .tag{position:absolute;top:10px;left:10px;background:var(--accent);color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;text-transform:uppercase}
+  .photo-count{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;padding:2px 8px;border-radius:4px}
+  .card-body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+  .card-title{font-weight:600;font-size:14.5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:44px}
+  .card-meta{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+  .price{color:var(--primary);font-weight:700;font-size:16px}
+  .meta-sep{color:var(--line)}
+  .area{font-weight:600;color:var(--text)}
+  .addr{color:var(--muted);font-size:13px;display:flex;gap:4px;align-items:center}
+  .card-foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:8px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--muted)}
+  .save-btn{border:1px solid var(--line);background:var(--white);width:32px;height:32px;border-radius:6px;display:grid;place-items:center}
+  .save-btn.saved{background:#fff1f2;border-color:#fecdd3}
+  .save-btn.saved svg path{fill:#e11d48;stroke:#e11d48}
+  .empty{grid-column:1/-1;text-align:center;padding:40px;color:var(--muted);background:var(--white);border-radius:var(--radius)}
+  .center{text-align:center;margin-top:24px}
+
+  /* projects */
+  .projects-wrap{position:relative}
+  .projects{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:thin}
+  .project{flex:0 0 calc((100% - 54px)/4);scroll-snap-align:start;background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+  .project .thumb{aspect-ratio:16/10}
+  .status{position:absolute;top:10px;left:10px;font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;color:#fff}
+  .status.open{background:#16a34a}.status.soon{background:#2563eb}.status.done{background:#6b7280}
+  .project .card-body{gap:4px}
+  .project h3{font-size:15.5px}
+  .scroll-btn{position:absolute;top:38%;width:40px;height:40px;border-radius:50%;border:none;background:var(--white);box-shadow:var(--shadow);display:grid;place-items:center;z-index:2}
+  .scroll-btn.prev{left:-14px}.scroll-btn.next{right:-14px}
+
+  /* locations */
+  .locations{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:170px 170px;gap:14px}
+  .loc{position:relative;border-radius:var(--radius);overflow:hidden;color:#fff;display:flex;align-items:flex-end;padding:16px;transition:transform .2s}
+  .loc:hover{transform:scale(1.015)}
+  .loc:first-child{grid-row:span 2}
+  .loc::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,.55))}
+  .loc div{position:relative;z-index:1}
+  .loc h3{font-size:20px}
+  .loc span{font-size:13.5px;opacity:.9}
+
+  /* news */
+  .news{display:grid;grid-template-columns:1.3fr 1fr;gap:24px;background:var(--white);border-radius:var(--radius);padding:20px}
+  .news-tabs{display:flex;gap:18px;border-bottom:1px solid var(--line);margin-bottom:16px;grid-column:1/-1}
+  .news-tabs button{border:none;background:none;padding:8px 0;font-weight:600;font-size:15px;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px}
+  .news-tabs button.active{color:var(--primary);border-color:var(--primary)}
+  .news-main .thumb{border-radius:8px;aspect-ratio:16/9;margin-bottom:12px}
+  .news-main h3{font-size:19px;margin-bottom:6px}
+  .news-main p{color:var(--muted);font-size:14px}
+  .news-list{list-style:none;display:flex;flex-direction:column}
+  .news-list li{padding:11px 0;border-bottom:1px solid var(--line);display:flex;gap:10px;font-size:14.5px;font-weight:500}
+  .news-list li:last-child{border:none}
+  .news-list li::before{content:"";flex:0 0 6px;height:6px;border-radius:50%;background:var(--primary);margin-top:8px}
+  .news-list a:hover,.news-main h3 a:hover{color:var(--primary)}
+  .date{color:var(--muted);font-size:12.5px;font-weight:400;display:block}
+
+  /* tools / why us */
+  .tools{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .tool{background:var(--white);border-radius:var(--radius);padding:20px;display:flex;gap:14px;align-items:flex-start;border:1px solid var(--line)}
+  .tool:hover{border-color:var(--primary)}
+  .tool-icon{flex:0 0 44px;height:44px;border-radius:10px;background:var(--primary-light);display:grid;place-items:center}
+  .tool h4{font-size:15px;margin-bottom:2px}
+  .tool p{font-size:13px;color:var(--muted)}
+
+  /* CTA */
+  .cta{background:linear-gradient(110deg,var(--primary-dark),var(--primary));border-radius:14px;padding:32px;display:flex;justify-content:space-between;align-items:center;gap:20px;color:#fff;flex-wrap:wrap}
+  .cta h2{font-size:24px}
+  .cta p{opacity:.85}
+  .cta .btn{background:var(--accent);border-color:var(--accent);color:#fff;padding:12px 26px;font-size:15px}
+
+  /* ===== FOOTER ===== */
+  footer{background:#0b1f1d;color:#cbd5d1;margin-top:40px;padding-top:44px;font-size:14px}
+  .foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.3fr;gap:32px;padding-bottom:32px}
+  footer h5{color:#fff;font-size:15px;margin-bottom:12px}
+  footer ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+  footer a:hover{color:#5eead4}
+  .foot-brand .logo{color:#fff;margin-bottom:12px}
+  .foot-brand p{margin-bottom:6px}
+  .newsletter{display:flex;margin-top:10px}
+  .newsletter input{flex:1;height:42px;border:none;border-radius:8px 0 0 8px;padding:0 12px;font-family:inherit;min-width:0}
+  .newsletter button{border:none;background:var(--accent);color:#fff;font-weight:600;padding:0 16px;border-radius:0 8px 8px 0}
+  .socials{display:flex;gap:10px;margin-top:14px}
+  .socials a{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);display:grid;place-items:center;font-weight:700;font-size:13px}
+  .copyright{border-top:1px solid rgba(255,255,255,.1);padding:16px 0;font-size:13px;color:#8aa39e;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+  /* toast */
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:#111827;color:#fff;padding:10px 18px;border-radius:8px;font-size:14px;transition:transform .3s;z-index:100}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+  .back-top{position:fixed;right:20px;bottom:20px;width:44px;height:44px;border-radius:50%;background:var(--primary);color:#fff;border:none;display:none;place-items:center;box-shadow:var(--shadow);z-index:40}
+  .back-top.show{display:grid}
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width:1024px){
+    .grid-listings{grid-template-columns:repeat(3,1fr)}
+    .project{flex-basis:calc((100% - 36px)/3)}
+    .tools{grid-template-columns:repeat(2,1fr)}
+    .foot-grid{grid-template-columns:1fr 1fr}
+    .menu > li > a{padding:22px 8px;font-size:14px}
+    .btn-text{display:none}
+  }
+  @media (max-width:860px){
+    .menu{display:none;position:absolute;top:68px;left:0;right:0;background:var(--white);flex-direction:column;box-shadow:var(--shadow);padding:8px 0}
+    .menu.open{display:flex}
+    .menu > li > a{padding:12px 20px}
+    .dropdown{position:static;box-shadow:none;display:none;padding:0 0 6px 16px}
+    .menu > li:hover .dropdown{display:none}
+    .burger{display:grid;margin-left:auto}
+    .nav-actions .btn:not(.btn-primary),.nav-actions .icon-btn:not(.burger){display:none}
+    .grid-listings{grid-template-columns:repeat(2,1fr)}
+    .project{flex-basis:calc((100% - 18px)/2)}
+    .filters{grid-template-columns:repeat(2,1fr)}
+    .locations{grid-template-columns:1fr 1fr;grid-template-rows:200px 140px 140px}
+    .loc:first-child{grid-column:span 2;grid-row:auto}
+    .news{grid-template-columns:1fr}
+    .hero h1{font-size:27px}
+    .scroll-btn{display:none}
+  }
+  @media (max-width:540px){
+    .grid-listings{grid-template-columns:1fr}
+    .project{flex-basis:85%}
+    .search-row{flex-direction:column}
+    .search-row .btn-primary{width:100%}
+    .tools{grid-template-columns:1fr}
+    .foot-grid{grid-template-columns:1fr}
+    .search-tabs button{padding:9px 14px}
+    .nav-actions .btn-primary{padding:8px 12px;font-size:13px}
+    .section-head h2{font-size:20px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header>
+  <div class="container nav">
+    <a href="#" class="logo" aria-label="GATA - trang chủ">
+      <span class="logo-mark">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 11.5 12 4l9 7.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 10v9h12v-9" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><circle cx="12" cy="14.5" r="2" fill="#f59e0b"/></svg>
+      </span>
+      <span>GATA<small>BẤT ĐỘNG SẢN</small></span>
+    </a>
+
+    <ul class="menu" id="menu">
+      <li><a href="#listings">Nhà đất bán</a>
+        <div class="dropdown">
+          <a href="#">Bán căn hộ chung cư</a><a href="#">Bán nhà riêng</a><a href="#">Bán nhà mặt phố</a>
+          <a href="#">Bán biệt thự, liền kề</a><a href="#">Bán đất nền dự án</a><a href="#">Bán đất</a>
+        </div>
+      </li>
+      <li><a href="#listings">Nhà đất cho thuê</a>
+        <div class="dropdown">
+          <a href="#">Cho thuê căn hộ</a><a href="#">Cho thuê nhà riêng</a><a href="#">Cho thuê phòng trọ</a>
+          <a href="#">Cho thuê văn phòng</a><a href="#">Cho thuê mặt bằng</a>
+        </div>
+      </li>
+      <li><a href="#projects">Dự án</a>
+        <div class="dropdown" id="projectMenu"></div>
+      </li>
+      <li><a href="#news">Tin tức</a></li>
+      <li><a href="#tools">Wiki BĐS</a></li>
+      <li><a href="#tools">Phân tích đánh giá</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <button class="icon-btn" aria-label="Tin đã lưu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z" stroke="#1f2937" stroke-width="1.8"/></svg>
+        <span class="badge" id="savedCount">0</span>
+      </button>
+      <button class="btn-text">Đăng nhập</button>
+      <button class="btn-text">Đăng ký</button>
+      <button class="btn btn-primary">Đăng tin</button>
+      <button class="icon-btn burger" id="burger" aria-label="Mở menu">
+        <svg width="24" height="24" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" stroke="#1f2937" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= HERO + SEARCH ================= -->
+<div class="hero">
+  <svg class="hero-skyline" viewBox="0 0 1200 180" preserveAspectRatio="none" fill="#fff">
+    <path d="M0 180V120h40V80h30v40h20V60h40v60h30V100h25V40h45v80h20V90h35v30h30V70h20V30h40v90h25V100h30v20h40V60h35v60h20V20h50v100h25V80h30v40h40V50h30v70h20V90h35v30h30V60h45v60h20V40h40v80h25V100h30v20h40V70h30v50h25V30h45v90h20V90h30v30h40V60h35v60h20v60Z"/>
+  </svg>
+  <div class="container hero-inner">
+    <h1>Tìm ngôi nhà phù hợp với bạn</h1>
+    <p>Hàng nghìn tin mua bán, cho thuê nhà đất được cập nhật mỗi ngày</p>
+
+    <div class="search-box">
+      <div class="search-tabs" role="tablist">
+        <button class="active" data-type="ban">Nhà đất bán</button>
+        <button data-type="thue">Nhà đất cho thuê</button>
+        <button data-type="duan">Dự án</button>
+      </div>
+      <form class="search-panel" id="searchForm">
+        <div class="search-row">
+          <label class="search-input">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#6b7280" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="#6b7280" stroke-width="2" stroke-linecap="round"/></svg>
+            <input type="text" id="keyword" placeholder="Nhập từ khóa: tên đường, quận, dự án...">
+          </label>
+          <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+        </div>
+        <div class="filters">
+          <select id="fCategory">
+            <option value="">Loại nhà đất</option>
+            <option>Căn hộ chung cư</option>
+            <option>Nhà riêng</option>
+            <option>Nhà mặt phố</option>
+            <option>Biệt thự, liền kề</option>
+            <option>Đất nền</option>
+          </select>
+          <select id="fCity">
+            <option value="">Trên toàn quốc</option>
+            <option>Hà Nội</option>
+            <option>TP. Hồ Chí Minh</option>
+            <option>Đà Nẵng</option>
+            <option>Bình Dương</option>
+            <option>Hải Phòng</option>
+          </select>
+          <select id="fPrice"></select>
+          <select id="fArea">
+            <option value="">Diện tích</option>
+            <option value="0-50">Dưới 50 m²</option>
+            <option value="50-80">50 – 80 m²</option>
+            <option value="80-150">80 – 150 m²</option>
+            <option value="150-99999">Trên 150 m²</option>
+          </select>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<main>
+<!-- ================= LISTINGS ================= -->
+<section id="listings">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2 id="listingTitle">Bất động sản dành cho bạn</h2>
+        <p>Gợi ý dựa trên các tin đăng mới nhất</p>
+      </div>
+      <a href="#" class="link-more">Tin nhà đất bán mới nhất →</a>
+    </div>
+    <div class="result-bar">
+      <span id="resultCount"></span>
+      <select id="sort" aria-label="Sắp xếp">
+        <option value="new">Tin mới nhất</option>
+        <option value="priceAsc">Giá thấp đến cao</option>
+        <option value="priceDesc">Giá cao đến thấp</option>
+        <option value="areaDesc">Diện tích lớn nhất</option>
+      </select>
+    </div>
+    <div class="grid-listings" id="grid"></div>
+    <div class="center"><button class="btn" id="loadMore">Xem thêm</button></div>
+  </div>
+</section>
+
+<!-- ================= PROJECTS ================= -->
+<section id="projects" style="background:var(--white)">
+  <div class="container">
+    <div class="section-head">
+      <div><h2>Dự án bất động sản nổi bật</h2><p>Các dự án đang mở bán và sắp ra mắt</p></div>
+      <a href="#" class="link-more">Xem tất cả dự án →</a>
+    </div>
+    <div class="projects-wrap">
+      <button class="scroll-btn prev" data-dir="-1" aria-label="Trước"><svg width="18" height="18" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" stroke="#1f2937" stroke-width="2" fill="none"/></svg></button>
+      <div class="projects" id="projectList"></div>
+      <button class="scroll-btn next" data-dir="1" aria-label="Sau"><svg width="18" height="18" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" stroke="#1f2937" stroke-width="2" fill="none"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LOCATIONS ================= -->
+<section>
+  <div class="container">
+    <div class="section-head"><div><h2>Bất động sản theo địa điểm</h2></div></div>
+    <div class="locations" id="locations"></div>
+  </div>
+</section>
+
+<!-- ================= NEWS ================= -->
+<section id="news">
+  <div class="container">
+    <div class="news">
+      <div class="news-tabs">
+        <button class="active">Tin nổi bật</button>
+        <button>Tin tức</button>
+        <button>BĐS TP.HCM</button>
+        <button>BĐS Hà Nội</button>
+      </div>
+      <article class="news-main">
+        <div class="thumb" style="background:linear-gradient(135deg,#99f6e4,#0f766e)">
+          <img class="ph" src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=70&auto=format&fit=crop" alt="Thị trường căn hộ" loading="lazy" onerror="this.remove()">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 20V9l8-5 8 5v11H4Z" stroke="#fff" stroke-width="1.5"/><path d="M9 20v-6h6v6" stroke="#fff" stroke-width="1.5"/></svg>
+        </div>
+        <h3><a href="#">Thị trường căn hộ cuối năm: nguồn cung mới tăng, người mua ưu tiên dự án đã hoàn thiện pháp lý</a></h3>
+        <p>Bài viết mẫu – nội dung minh họa cho khu vực tin tức nổi bật. Thay bằng bài viết thật khi triển khai.</p>
+      </article>
+      <ul class="news-list">
+        <li><a href="#">Kinh nghiệm kiểm tra pháp lý trước khi đặt cọc mua nhà<span class="date">2 giờ trước</span></a></li>
+        <li><a href="#">5 lưu ý khi thuê căn hộ lần đầu tại thành phố lớn<span class="date">5 giờ trước</span></a></li>
+        <li><a href="#">Vay mua nhà: so sánh các gói lãi suất ưu đãi phổ biến<span class="date">1 ngày trước</span></a></li>
+        <li><a href="#">Đất nền vùng ven: cơ hội và rủi ro cần cân nhắc<span class="date">1 ngày trước</span></a></li>
+        <li><a href="#">Cách định giá nhà phố dựa trên vị trí và mặt tiền<span class="date">2 ngày trước</span></a></li>
+        <li><a href="#">Hạ tầng giao thông mới tác động thế nào đến giá nhà<span class="date">3 ngày trước</span></a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TOOLS ================= -->
+<section id="tools" style="padding-top:0">
+  <div class="container">
+    <div class="section-head"><div><h2>Hỗ trợ tiện ích</h2></div></div>
+    <div class="tools">
+      <a href="#" class="tool"><span class="tool-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" stroke="#0f766e" stroke-width="1.8"/><path d="M8 7h8M8 11h2M12 11h2M8 15h2M12 15h2M16 11v4" stroke="#0f766e" stroke-width="1.8" stroke-linecap="round"/></svg></span><div><h4>Tính lãi suất vay</h4><p>Ước tính khoản trả hằng tháng khi vay mua nhà</p></div></a>
+      <a href="#" class="tool"><span class="tool-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-6" stroke="#0f766e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><h4>Tham khảo giá nhà đất</h4><p>Xem biến động giá theo khu vực</p></div></a>
+      <a href="#" class="tool"><span class="tool-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3v18M3 12h18" stroke="#0f766e" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="8" stroke="#0f766e" stroke-width="1.8"/></svg></span><div><h4>Xem hướng nhà</h4><p>Tra cứu hướng hợp tuổi gia chủ</p></div></a>
+      <a href="#" class="tool"><span class="tool-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 3h9l4 4v14H6V3Z" stroke="#0f766e" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12h7M9 16h7" stroke="#0f766e" stroke-width="1.8" stroke-linecap="round"/></svg></span><div><h4>Quy trình mua bán</h4><p>Các bước, giấy tờ cần chuẩn bị</p></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section style="padding-top:0">
+  <div class="container">
+    <div class="cta">
+      <div>
+        <h2>Bạn có bất động sản cần bán hoặc cho thuê?</h2>
+        <p>Đăng tin miễn phí, tiếp cận hàng nghìn người mua mỗi ngày.</p>
+      </div>
+      <button class="btn">Đăng tin ngay</button>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="container foot-grid">
+    <div class="foot-brand">
+      <a href="#" class="logo"><span class="logo-mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 11.5 12 4l9 7.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 10v9h12v-9" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><circle cx="12" cy="14.5" r="2" fill="#f59e0b"/></svg></span><span>GATA</span></a>
+      <p>Trang mẫu tham khảo – thông tin liên hệ dưới đây là dữ liệu minh họa.</p>
+      <p>📍 Địa chỉ: [Địa chỉ công ty]</p>
+      <p>☎ Hotline: [Số điện thoại]</p>
+      <p>✉ Email: [email@tencongty.vn]</p>
+    </div>
+    <div>
+      <h5>Hướng dẫn</h5>
+      <ul><li><a href="#">Về chúng tôi</a></li><li><a href="#">Báo giá & hỗ trợ</a></li><li><a href="#">Câu hỏi thường gặp</a></li><li><a href="#">Góp ý báo lỗi</a></li><li><a href="#">Sitemap</a></li></ul>
+    </div>
+    <div>
+      <h5>Quy định</h5>
+      <ul><li><a href="#">Quy định đăng tin</a></li><li><a href="#">Quy chế hoạt động</a></li><li><a href="#">Điều khoản thỏa thuận</a></li><li><a href="#">Chính sách bảo mật</a></li><li><a href="#">Giải quyết khiếu nại</a></li></ul>
+    </div>
+    <div>
+      <h5>Đăng ký nhận tin</h5>
+      <p>Nhận tin nhà đất mới phù hợp nhu cầu qua email.</p>
+      <form class="newsletter" id="newsletter">
+        <input type="email" placeholder="Nhập email của bạn" required>
+        <button type="submit">Đăng ký</button>
+      </form>
+      <div class="socials"><a href="#" aria-label="Facebook">f</a><a href="#" aria-label="Zalo">Z</a><a href="#" aria-label="YouTube">▶</a></div>
+    </div>
+  </div>
+  <div class="container copyright">
+    <span>© 2026 GATA – Trang mẫu tham khảo.</span>
+    <span>Dữ liệu tin đăng chỉ mang tính minh họa.</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+<button class="back-top" id="backTop" aria-label="Lên đầu trang"><svg width="18" height="18" viewBox="0 0 24 24"><path d="m6 15 6-6 6 6" stroke="#fff" stroke-width="2.2" fill="none"/></svg></button>
+
+<script>
+/* ================= DỮ LIỆU MẪU ================= */
+// price: đơn vị triệu đồng (bán = tổng giá, thuê = giá/tháng)
+const listings = [
+  {id:1,type:"ban",cat:"Căn hộ chung cư",title:"Bán căn hộ 2PN view hồ, full nội thất, sổ hồng sẵn",price:3850,area:72,city:"Hà Nội",district:"Tây Hồ",days:0,photos:12,vip:true},
+  {id:2,type:"ban",cat:"Nhà riêng",title:"Nhà 4 tầng hẻm xe hơi, gần chợ và trường học",price:6200,area:58,city:"TP. Hồ Chí Minh",district:"Gò Vấp",days:1,photos:9,vip:false},
+  {id:3,type:"ban",cat:"Nhà mặt phố",title:"Mặt phố kinh doanh sầm uất, mặt tiền 6m",price:28500,area:120,city:"Hà Nội",district:"Đống Đa",days:1,photos:15,vip:true},
+  {id:4,type:"ban",cat:"Đất nền",title:"Đất nền khu dân cư hiện hữu, đường nhựa 12m",price:1950,area:100,city:"Bình Dương",district:"Thuận An",days:2,photos:6,vip:false},
+  {id:5,type:"ban",cat:"Biệt thự, liền kề",title:"Biệt thự song lập có sân vườn, khu compound an ninh",price:24000,area:220,city:"TP. Hồ Chí Minh",district:"Quận 9",days:2,photos:20,vip:true},
+  {id:6,type:"ban",cat:"Căn hộ chung cư",title:"Căn hộ 1PN + 1, tầng trung, ban công hướng Đông Nam",price:2300,area:48,city:"Đà Nẵng",district:"Sơn Trà",days:3,photos:8,vip:false},
+  {id:7,type:"ban",cat:"Nhà riêng",title:"Nhà 3 tầng ngõ ô tô, cách phố 30m",price:5400,area:45,city:"Hải Phòng",district:"Lê Chân",days:3,photos:7,vip:false},
+  {id:8,type:"ban",cat:"Căn hộ chung cư",title:"Căn góc 3PN, 2 ban công, tiện ích hồ bơi – gym",price:5100,area:105,city:"TP. Hồ Chí Minh",district:"Quận 7",days:4,photos:14,vip:false},
+  {id:9,type:"ban",cat:"Đất nền",title:"Lô đất gần biển, phù hợp xây homestay",price:3200,area:150,city:"Đà Nẵng",district:"Ngũ Hành Sơn",days:5,photos:5,vip:false},
+  {id:10,type:"ban",cat:"Nhà mặt phố",title:"Nhà mặt tiền đường lớn, đang cho thuê ổn định",price:16800,area:90,city:"Đà Nẵng",district:"Hải Châu",days:6,photos:10,vip:false},
+  {id:11,type:"ban",cat:"Biệt thự, liền kề",title:"Liền kề 5 tầng có thang máy, gần công viên",price:13500,area:85,city:"Hà Nội",district:"Hà Đông",days:6,photos:11,vip:false},
+  {id:12,type:"ban",cat:"Nhà riêng",title:"Nhà 2 tầng mới xây, sân để xe rộng",price:2650,area:80,city:"Bình Dương",district:"Dĩ An",days:7,photos:6,vip:false},
+
+  {id:21,type:"thue",cat:"Căn hộ chung cư",title:"Cho thuê căn hộ 2PN đầy đủ nội thất, vào ở ngay",price:12,area:68,city:"TP. Hồ Chí Minh",district:"Bình Thạnh",days:0,photos:10,vip:true},
+  {id:22,type:"thue",cat:"Nhà riêng",title:"Cho thuê nhà nguyên căn 3 tầng, phù hợp gia đình",price:18,area:60,city:"Hà Nội",district:"Cầu Giấy",days:1,photos:8,vip:false},
+  {id:23,type:"thue",cat:"Nhà mặt phố",title:"Mặt bằng kinh doanh mặt tiền 8m, khu đông dân",price:45,area:110,city:"TP. Hồ Chí Minh",district:"Quận 10",days:1,photos:6,vip:true},
+  {id:24,type:"thue",cat:"Căn hộ chung cư",title:"Studio mới, gần biển, có hồ bơi chung",price:7,area:35,city:"Đà Nẵng",district:"Sơn Trà",days:2,photos:9,vip:false},
+  {id:25,type:"thue",cat:"Biệt thự, liền kề",title:"Biệt thự sân vườn cho thuê làm văn phòng",price:60,area:300,city:"Hà Nội",district:"Tây Hồ",days:3,photos:16,vip:false},
+  {id:26,type:"thue",cat:"Nhà riêng",title:"Nhà 1 trệt 1 lầu, hẻm yên tĩnh, có chỗ để ô tô",price:9,area:75,city:"Bình Dương",district:"Thủ Dầu Một",days:4,photos:5,vip:false},
+  {id:27,type:"thue",cat:"Căn hộ chung cư",title:"Căn hộ 3PN view sông, tầng cao thoáng mát",price:22,area:110,city:"TP. Hồ Chí Minh",district:"Thủ Đức",days:5,photos:12,vip:false},
+  {id:28,type:"thue",cat:"Nhà mặt phố",title:"Nhà mặt phố 4 tầng cho thuê kinh doanh, văn phòng",price:35,area:70,city:"Hải Phòng",district:"Ngô Quyền",days:6,photos:7,vip:false},
+];
+
+const projects = [
+  {name:"Suối Mây Eco Resort",loc:"Bảo Lộc, Lâm Đồng",status:"open",statusText:"Đang mở bán",price:"Từ 2,9 tỷ/căn",area:"120 ha",url:"pages/du-an-suoi-may-eco-resort.html",img:"1520250497591-112f2f40a3f4"},
+  {name:"Khu căn hộ Sông Xanh",loc:"Thủ Đức, TP. Hồ Chí Minh",status:"open",statusText:"Đang mở bán",price:"Từ 55 triệu/m²",area:"5,2 ha"},
+  {name:"Khu đô thị Đồi Thông",loc:"Hà Đông, Hà Nội",status:"soon",statusText:"Sắp mở bán",price:"Đang cập nhật",area:"32 ha"},
+  {name:"Căn hộ biển Bình Minh",loc:"Sơn Trà, Đà Nẵng",status:"open",statusText:"Đang mở bán",price:"Từ 48 triệu/m²",area:"2,1 ha"},
+  {name:"Khu nhà phố Hoa Sen",loc:"Thuận An, Bình Dương",status:"done",statusText:"Đã bàn giao",price:"Từ 4,5 tỷ/căn",area:"12 ha"},
+  {name:"Tòa căn hộ Ánh Dương",loc:"Cầu Giấy, Hà Nội",status:"soon",statusText:"Sắp mở bán",price:"Đang cập nhật",area:"1,4 ha"},
+  {name:"Khu biệt thự Rừng Phong",loc:"Quận 9, TP. Hồ Chí Minh",status:"open",statusText:"Đang mở bán",price:"Từ 22 tỷ/căn",area:"18 ha"},
+];
+
+const locations = [
+  {city:"TP. Hồ Chí Minh",count:"64.210",bg:"linear-gradient(135deg,#0f766e,#134e4a)",img:"1583417319070-4a69db38a482"},
+  {city:"Hà Nội",count:"58.930",bg:"linear-gradient(135deg,#0e7490,#164e63)",img:"1599708153386-62bf3f035c78"},
+  {city:"Đà Nẵng",count:"9.870",bg:"linear-gradient(135deg,#d97706,#92400e)",img:"1559592413-7cec4d0cae2b"},
+  {city:"Bình Dương",count:"8.120",bg:"linear-gradient(135deg,#4d7c0f,#365314)",img:"1460317442991-0ec209397118"},
+  {city:"Hải Phòng",count:"5.460",bg:"linear-gradient(135deg,#7c3aed,#4c1d95)",img:"1528127269322-539801943592"},
+];
+
+/* Ảnh minh họa (Unsplash) theo loại bất động sản */
+const catPhotos = {
+  "Căn hộ chung cư":["1502672260266-1c1ef2d93688","1522708323590-d24dbb6b0267","1554995207-c18c203602cb","1600607687939-ce8a6c25118c","1545324418-cc1a3fa10c00"],
+  "Nhà riêng":["1568605114967-8130f3a36994","1570129477492-45c003edd2be","1549517045-bc93de075e53","1605276374104-dee2a0ed3cd6","1564013799919-ab600027ffc6"],
+  "Nhà mặt phố":["1479839672679-a46483c0e7c8","1486406146926-c627a92ad1ab","1460317442991-0ec209397118","1545324418-cc1a3fa10c00"],
+  "Biệt thự, liền kề":["1613490493576-7fde63acd811","1600596542815-ffad4c1539a9","1600585154340-be6161a56a0c","1512917774080-9991f1c4c750","1580587771525-78b9dba3b914"],
+  "Đất nền":["1500382017468-9049fed747ef"],
+};
+const projectPhotos = ["1545324418-cc1a3fa10c00","1486406146926-c627a92ad1ab","1512917774080-9991f1c4c750","1600596542815-ffad4c1539a9","1479839672679-a46483c0e7c8","1613490493576-7fde63acd811"];
+const photoUrl = (id,w=600) => `https://images.unsplash.com/photo-${id}?w=${w}&q=70&auto=format&fit=crop`;
+const imgTag = (id,alt,w) => `<img class="ph" src="${photoUrl(id,w)}" alt="${alt}" loading="lazy" onerror="this.remove()">`;
+
+const priceOptions = {
+  ban:[["","Mức giá"],["0-1000","Dưới 1 tỷ"],["1000-3000","1 – 3 tỷ"],["3000-5000","3 – 5 tỷ"],["5000-10000","5 – 10 tỷ"],["10000-999999","Trên 10 tỷ"]],
+  thue:[["","Mức giá"],["0-5","Dưới 5 triệu"],["5-10","5 – 10 triệu"],["10-20","10 – 20 triệu"],["20-50","20 – 50 triệu"],["50-99999","Trên 50 triệu"]],
+};
+const palettes = ["#a7f3d0,#0f766e","#bae6fd,#0369a1","#fde68a,#b45309","#ddd6fe,#6d28d9","#fecaca,#b91c1c","#d9f99d,#4d7c0f"];
+
+/* ================= TIỆN ÍCH ================= */
+const $ = s => document.querySelector(s);
+const houseSvg = `<svg viewBox="0 0 24 24" fill="none"><path d="M3 11 12 4l9 7" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/><path d="M5 10v10h14V10" stroke="#fff" stroke-width="1.6"/><path d="M10 20v-5h4v5" stroke="#fff" stroke-width="1.6"/></svg>`;
+const pinSvg = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z" stroke="#6b7280" stroke-width="2"/><circle cx="12" cy="9.5" r="2.5" stroke="#6b7280" stroke-width="2"/></svg>`;
+const heartSvg = `<svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z" fill="none" stroke="#374151" stroke-width="1.8"/></svg>`;
+
+function formatPrice(p, type){
+  if(type === "thue") return p + " triệu/tháng";
+  if(p >= 1000){ const ty = p/1000; return (Number.isInteger(ty) ? ty : ty.toFixed(2).replace(/\.?0+$/,"")).toString().replace(".",",") + " tỷ"; }
+  return p + " triệu";
+}
+function daysText(d){ return d === 0 ? "Đăng hôm nay" : `Đăng ${d} ngày trước`; }
+function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2200); }
+
+/* ================= TRẠNG THÁI ================= */
+let state = { type:"ban", shown:8 };
+const saved = new Set();
+
+function fillPriceSelect(){
+  const opts = priceOptions[state.type] || priceOptions.ban;
+  $("#fPrice").innerHTML = opts.map(([v,t])=>`<option value="${v}">${t}</option>`).join("");
+}
+
+function getFiltered(){
+  const kw = $("#keyword").value.trim().toLowerCase();
+  const cat = $("#fCategory").value, city = $("#fCity").value;
+  const [pMin,pMax] = ($("#fPrice").value || "0-99999999").split("-").map(Number);
+  const [aMin,aMax] = ($("#fArea").value || "0-99999999").split("-").map(Number);
+  let list = listings.filter(l =>
+    l.type === state.type &&
+    (!cat || l.cat === cat) &&
+    (!city || l.city === city) &&
+    l.price >= pMin && l.price < pMax &&
+    l.area >= aMin && l.area < aMax &&
+    (!kw || (l.title+" "+l.district+" "+l.city+" "+l.cat).toLowerCase().includes(kw))
+  );
+  const s = $("#sort").value;
+  if(s==="priceAsc") list.sort((a,b)=>a.price-b.price);
+  else if(s==="priceDesc") list.sort((a,b)=>b.price-a.price);
+  else if(s==="areaDesc") list.sort((a,b)=>b.area-a.area);
+  else list.sort((a,b)=>a.days-b.days || b.vip-a.vip);
+  return list;
+}
+
+function renderListings(){
+  const list = getFiltered();
+  const show = list.slice(0, state.shown);
+  $("#resultCount").textContent = `Hiện có ${list.length} bất động sản phù hợp`;
+  $("#grid").innerHTML = show.length ? show.map(l=>{
+    const [c1,c2] = palettes[l.id % palettes.length].split(",");
+    const pool = catPhotos[l.cat] || catPhotos["Nhà riêng"];
+    return `<article class="card">
+      <a href="#" class="thumb" style="background:linear-gradient(135deg,${c1},${c2})">
+        ${houseSvg}
+        ${imgTag(pool[l.id % pool.length], l.title)}
+        ${l.vip ? '<span class="tag">Nổi bật</span>' : ''}
+        <span class="photo-count">📷 ${l.photos}</span>
+      </a>
+      <div class="card-body">
+        <a href="#" class="card-title">${l.title}</a>
+        <div class="card-meta"><span class="price">${formatPrice(l.price,l.type)}</span><span class="meta-sep">•</span><span class="area">${l.area} m²</span></div>
+        <div class="addr">${pinSvg}${l.district}, ${l.city}</div>
+        <div class="card-foot"><span>${daysText(l.days)}</span>
+          <button class="save-btn ${saved.has(l.id)?'saved':''}" data-id="${l.id}" aria-label="Lưu tin">${heartSvg}</button>
+        </div>
+      </div>
+    </article>`;
+  }).join("") : `<div class="empty">Không tìm thấy bất động sản phù hợp. Hãy thử nới rộng bộ lọc.</div>`;
+  $("#loadMore").style.display = list.length > state.shown ? "inline-block" : "none";
+}
+
+function renderProjects(){
+  $("#projectList").innerHTML = projects.map((p,i)=>{
+    const [c1,c2] = palettes[(i+2)%palettes.length].split(",");
+    // Dự án có trang riêng thì gắn link (p.url), chưa có thì để "#"
+    const href = p.url || "#";
+    return `<article class="project">
+      <a href="${href}" class="thumb" style="background:linear-gradient(135deg,${c1},${c2})">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 21V8l5-3v16M9 21V3l6 3v15M15 21V10l5 2v9M2 21h20" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        ${imgTag(p.img || projectPhotos[i % projectPhotos.length], p.name)}
+        <span class="status ${p.status}">${p.statusText}</span>
+      </a>
+      <div class="card-body">
+        <h3><a href="${href}">${p.name}</a></h3>
+        <div class="addr">${pinSvg}${p.loc}</div>
+        <div class="card-meta"><span class="price" style="font-size:14.5px">${p.price}</span><span class="meta-sep">•</span><span style="font-size:13.5px;color:var(--muted)">${p.area}</span></div>
+      </div>
+    </article>`;
+  }).join("");
+}
+
+// Menu con "Dự án": tự liệt kê các dự án đã có trang riêng (có p.url)
+const renderProjectMenu = () => {
+  const pages = projects.filter(p => p.url);
+  $("#projectMenu").innerHTML =
+    pages.map(p => `<a href="${p.url}">${p.name}</a>`).join("") +
+    `<a href="#projects">Xem tất cả dự án nổi bật</a>`;
+};
+
+function renderLocations(){
+  $("#locations").innerHTML = locations.map(l=>`
+    <a href="#listings" class="loc" data-city="${l.city}" style="background:${l.bg}">
+      ${imgTag(l.img, l.city, 900)}
+      <div><h3>${l.city}</h3><span>${l.count} tin đăng</span></div>
+    </a>`).join("");
+}
+
+/* ================= SỰ KIỆN ================= */
+// Tab Bán / Thuê / Dự án
+document.querySelectorAll(".search-tabs button").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    document.querySelectorAll(".search-tabs button").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    const t = btn.dataset.type;
+    if(t === "duan"){
+      document.getElementById("projects").scrollIntoView({behavior:"smooth"});
+      return;
+    }
+    state.type = t; state.shown = 8;
+    $("#listingTitle").textContent = t==="ban" ? "Bất động sản dành cho bạn" : "Nhà đất cho thuê dành cho bạn";
+    fillPriceSelect(); renderListings();
+  });
+});
+
+// Tìm kiếm
+$("#searchForm").addEventListener("submit", e=>{
+  e.preventDefault(); state.shown = 8; renderListings();
+  document.getElementById("listings").scrollIntoView({behavior:"smooth"});
+});
+["#fCategory","#fCity","#fPrice","#fArea","#sort"].forEach(id=>$(id).addEventListener("change",()=>{state.shown=8;renderListings();}));
+
+// Xem thêm
+$("#loadMore").addEventListener("click", ()=>{ state.shown += 4; renderListings(); });
+
+// Lưu tin
+$("#grid").addEventListener("click", e=>{
+  const b = e.target.closest(".save-btn"); if(!b) return;
+  const id = +b.dataset.id;
+  if(saved.has(id)){ saved.delete(id); toast("Đã bỏ lưu tin"); }
+  else { saved.add(id); toast("Đã lưu tin"); }
+  b.classList.toggle("saved");
+  $("#savedCount").textContent = saved.size;
+});
+
+// Click địa điểm -> lọc theo tỉnh/thành
+$("#locations").addEventListener("click", e=>{
+  const a = e.target.closest(".loc"); if(!a) return;
+  $("#fCity").value = a.dataset.city; state.shown = 8; renderListings();
+});
+
+// Cuộn danh sách dự án
+document.querySelectorAll(".scroll-btn").forEach(b=>b.addEventListener("click",()=>{
+  const el = $("#projectList"); el.scrollBy({left: el.clientWidth * 0.8 * +b.dataset.dir, behavior:"smooth"});
+}));
+
+// Tab tin tức (minh họa)
+document.querySelectorAll(".news-tabs button").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll(".news-tabs button").forEach(x=>x.classList.remove("active")); b.classList.add("active");
+}));
+
+// Menu mobile
+$("#burger").addEventListener("click", ()=>$("#menu").classList.toggle("open"));
+
+// Đăng ký nhận tin
+$("#newsletter").addEventListener("submit", e=>{ e.preventDefault(); e.target.reset(); toast("Đăng ký nhận tin thành công!"); });
+
+// Nút lên đầu trang
+window.addEventListener("scroll", ()=>$("#backTop").classList.toggle("show", scrollY > 600));
+$("#backTop").addEventListener("click", ()=>scrollTo({top:0,behavior:"smooth"}));
+
+/* ================= KHỞI TẠO ================= */
+fillPriceSelect(); renderListings(); renderProjects(); renderProjectMenu(); renderLocations();
+</script>
+</body>
+</html>

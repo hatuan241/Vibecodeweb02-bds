@@ -1,0 +1,10 @@
+# Tài liệu khoá học (không đưa lên GitHub)
+*.pdf
+
+# Cài đặt cá nhân của Claude Code
+.claude/settings.local.json
+
+# File hệ thống
+.DS_Store
+Thumbs.db
+desktop.ini
